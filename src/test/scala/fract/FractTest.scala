@@ -67,4 +67,52 @@ class FractTest extends AnyFunSuite {
     val fract2 = new Fract(2.0, 3.0)
     assert(fract1.hashCode() != fract2.hashCode())
   }
+
+  test("should add Fracts correctly") {
+    val fract1 = new Fract(1.0, 2.0)
+    val fract2 = new Fract(2.0, 2.0)
+    val result = fract1 + fract2
+    val expected = new Fract(3.0, 2.0)
+    assert(result.equals(expected))
+  }
+
+  test("should add Fracts with different denoms correctly") {
+    val fract1 = new Fract(1.0, 2.0)
+    val fract2 = new Fract(3.0, 4.0)
+    val result = fract1 + fract2
+    val expected = new Fract(5.0, 4.0)
+    assert(result.equals(expected))
+  }
+
+  test("should subtract Fracts correctly") {
+    val fract1 = new Fract(3.0, 4.0)
+    val fract2 = new Fract(1.0, 4.0)
+    val result = fract1 - fract2
+    val expected = new Fract(1.0, 2.0)
+    assert(result.equals(expected))
+  }
+
+  test("should subtract Fracts with different denoms correctly") {
+    val fract1 = new Fract(2.0, 5.0)
+    val fract2 = new Fract(1.0, 4.0)
+    val result = fract1 - fract2
+    val expected = new Fract(3.0, 20.0)
+    assert(result.equals(expected))
+  }
+
+  test("should multiply Fracts correctly") {
+    val fract1 = new Fract(1.0, 3.0)
+    val fract2 = new Fract(3.0, 5.0)
+    val result = fract1 * fract2
+    val expected = new Fract(1.0, 5.0)
+    assert(result.equals(expected))
+  }
+
+  test("should divide Fracts correctly") {
+    val fract1 = new Fract(1.0, 2.0)
+    val fract2 = new Fract(1.0, 6.0)
+    val result = fract1 / fract2
+    val expected = new Fract(3.0, 1.0)
+    assert(result.equals(expected))
+  }
 }
