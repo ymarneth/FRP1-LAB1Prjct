@@ -53,4 +53,6 @@ final class Fract(_n: Double, _d: Double) {
   private def computeGcd(a: Int, b: Int): Int = if (b == 0) a else computeGcd(b, a % b)
 }
 
-object Fract 
+object Fract {
+  def apply(_n: Double, _d: Double): Fract = new Fract(_n, _d)
+}
