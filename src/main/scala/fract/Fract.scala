@@ -35,7 +35,7 @@ final class Fract(_n: Double, _d: Double) {
   }
 
   @targetName("divide")
-  def /(divider: Fract): Fract = this * divider.rec()
+  def /(divider: Fract): Fract = this * divider.rec
 
   @targetName("multiply")
   def *(multiplier: Fract): Fract = {
@@ -44,9 +44,11 @@ final class Fract(_n: Double, _d: Double) {
     new Fract(newNumer, newDenom)
   }
 
-  private def rec(): Fract = new Fract(denom, numer)
+  // returns the reciprocal value
+  def rec: Fract = new Fract(denom, numer)
 
-  private def neg(): Fract = new Fract(-numer, denom)
+  // returns the negated Fract
+  private def neg: Fract = new Fract(-numer, denom)
 
   // Compute the greatest common divisor (GCD)
   @tailrec

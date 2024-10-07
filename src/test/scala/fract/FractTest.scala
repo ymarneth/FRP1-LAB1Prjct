@@ -34,7 +34,7 @@ class FractTest extends AnyFunSuite {
     }
   }
 
-  test ("Fract should print a fraction correctly") {
+  test("Fract should print a fraction correctly") {
     val fract = new Fract(1.0, 2.0)
     assert(fract.toString == "1/2")
   }
