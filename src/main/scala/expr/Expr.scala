@@ -30,7 +30,19 @@ def infix(expr: Expr): String = expr match {
   case null => throw new MatchError(expr)
 }
 
-def eval(expr: Expr, bds: Map[String, Double]): Double = ???
+def eval(expr: Expr, bds: Map[String, Double]): Double = {
+  expr match
+    case Lit(v) => v
+    case Var(n) if bds.contains(n) => bds(n)
+    case Var(n) => throw new IllegalArgumentException(s"Variable $n not found")
+    case Add(l, r) => eval(l, bds) + eval(r, bds)
+    case Mult(l, r) => eval(l, bds) * eval(r, bds)
+    case Min(s) => -eval(s, bds)
+    case Rec(s) =>
+      val sV = eval(s, bds)
+      if (sV == 0.0) throw new ArithmeticException("Division by zero")
+      else 1.0 / eval(s, bds)
+}
 
 def simplify(expr: Expr): Expr = ???
 
