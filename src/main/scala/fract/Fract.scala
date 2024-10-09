@@ -1,12 +1,10 @@
 package fract
 
 import scala.annotation.{tailrec, targetName}
+import scala.language.implicitConversions
 
-final class Fract(_n: Int, _d: Int) {
-  require(_d != 0, "Denominator cannot be zero")
-
-  val numer: Int = _n / computeGcd(_n, _d)
-  val denom: Int = _d / computeGcd(_n, _d)
+final class Fract(val numer: Int, val denom: Int) {
+  require(denom != 0, "Denominator cannot be zero")
 
   override def toString: String = s"$numer/$denom"
 
@@ -21,17 +19,17 @@ final class Fract(_n: Int, _d: Int) {
   }
 
   @targetName("add")
-  def +(addend: Fract): Fract = {
-    val newNumer = numer * addend.denom + addend.numer * denom
-    val newDenom = denom * addend.denom
-    new Fract(newNumer, newDenom)
-  }
+  def +(addend: Fract): Fract = Fract.apply(
+    numer * addend.denom + addend.numer * denom,
+    denom * addend.denom
+  )
 
   @targetName("subtract")
   def -(subtrahend: Fract): Fract = {
-    val newNumer = numer * subtrahend.denom - subtrahend.numer * denom
-    val newDenom = denom * subtrahend.denom
-    new Fract(newNumer, newDenom)
+    Fract.apply(
+      numer * subtrahend.denom - subtrahend.numer * denom,
+      denom * subtrahend.denom
+    )
   }
 
   @targetName("divide")
@@ -41,20 +39,38 @@ final class Fract(_n: Int, _d: Int) {
   def *(multiplier: Fract): Fract = {
     val newNumer = numer * multiplier.numer
     val newDenom = denom * multiplier.denom
-    new Fract(newNumer, newDenom)
+    Fract.apply(newNumer, newDenom)
   }
 
   // returns the reciprocal value
-  def rec: Fract = new Fract(denom, numer)
+  def rec: Fract = Fract.apply(denom, numer)
 
   // returns the negated Fract
-  private def neg: Fract = new Fract(-numer, denom)
+  private def neg: Fract = Fract.apply(-numer, denom)
+}
 
-  // Compute the greatest common divisor (GCD)
-  @tailrec
-  private def computeGcd(a: Int, b: Int): Int = if (b == 0) a else computeGcd(b, a % b)
+// Compute the greatest common divisor (GCD)
+@tailrec
+private[fract] def computeGcd(a: Int, b: Int): Int = {
+  if (a < 0 || b < 0) {
+    computeGcd(a.abs, b.abs)
+  } else {
+    if (b == 0) a else computeGcd(b, a % b)
+  }
 }
 
 object Fract {
-  def apply(_n: Int, _d: Int): Fract = new Fract(_n, _d)
+  extension (n: Int) {
+    def +(that: Fract): Fract = Fract(n * that.denom + that.numer, that.denom)
+    def -(that: Fract): Fract = Fract(n * that.denom - that.numer, that.denom)
+    def *(that: Fract): Fract = Fract(n * that.numer, that.denom)
+    def /(that: Fract): Fract = Fract(n * that.denom, that.numer)
+
+    def ~/~(d: Int): Fract = Fract(n, d)
+  }
+
+  def apply(n: Int, d: Int): Fract = {
+    val gcd = computeGcd(n, d)
+    new Fract(n / gcd, d / gcd)
+  }
 }

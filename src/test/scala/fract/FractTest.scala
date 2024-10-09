@@ -1,11 +1,12 @@
 package fract
 
+import fract.Fract.~/~
 import org.scalatest.funsuite.AnyFunSuite
 
 class FractTest extends AnyFunSuite {
 
   test("Fract should correctly simplify a fraction") {
-    val fract = new Fract(8, 12)
+    val fract = Fract.apply(8, 12)
     assert(fract.numer == 2)
     assert(fract.denom == 3)
   }
@@ -114,5 +115,18 @@ class FractTest extends AnyFunSuite {
     val result = fract1 / fract2
     val expected = new Fract(3, 1)
     assert(result.equals(expected))
+  }
+
+  test("should multiply Fract with Int") {
+    val fract = new Fract(1, 2)
+    val result = 3 * fract
+    val expected = new Fract(3, 2)
+    assert(result.equals(expected))
+  }
+  
+  test("should recognize values as Fract") {
+    val fract = 3 ~/~ 4
+    assert(fract.numer == 3)
+    assert(fract.denom == 4)
   }
 }
