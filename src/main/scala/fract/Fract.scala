@@ -2,11 +2,11 @@ package fract
 
 import scala.annotation.{tailrec, targetName}
 
-final class Fract(_n: Double, _d: Double) {
+final class Fract(_n: Int, _d: Int) {
   require(_d != 0, "Denominator cannot be zero")
 
-  val numer: Int = (_n / computeGcd(_n.toInt, _d.toInt)).toInt
-  val denom: Int = (_d / computeGcd(_n.toInt, _d.toInt)).toInt
+  val numer: Int = _n / computeGcd(_n, _d)
+  val denom: Int = _d / computeGcd(_n, _d)
 
   override def toString: String = s"$numer/$denom"
 
@@ -56,5 +56,5 @@ final class Fract(_n: Double, _d: Double) {
 }
 
 object Fract {
-  def apply(_n: Double, _d: Double): Fract = new Fract(_n, _d)
+  def apply(_n: Int, _d: Int): Fract = new Fract(_n, _d)
 }
