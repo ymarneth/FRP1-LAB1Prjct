@@ -112,4 +112,61 @@ class ExprTest extends AnyFunSpec {
       assert(eval(expr, bindings) == 6.25)
     }
   }
+
+  describe("Simplify") {
+    it("should simplify a + 0 to a") {
+      val expr1 = Add(Var("a"), Lit(0.0))
+      assert(simplify(expr1) == Var("a"))
+    }
+
+    it("should simplify 0 + a to a") {
+      val expr = Add(Lit(0.0), Var("a"))
+      assert(simplify(expr) == Var("a"))
+    }
+
+    it("should simplify a * 0 to 0") {
+      val expr = Mult(Var("a"), Lit(0.0))
+      assert(simplify(expr) == Lit(0.0))
+    }
+
+    it("should simplify 0 * a to 0") {
+      val expr = Mult(Lit(0.0), Var("a"))
+      assert(simplify(expr) == Lit(0.0))
+    }
+
+    it("should simplify a * 1 to a") {
+      val expr = Mult(Var("a"), Lit(1.0))
+      assert(simplify(expr) == Var("a"))
+    }
+
+    it("should simplify 1 * a to a") {
+      val expr = Mult(Lit(1.0), Var("a"))
+      assert(simplify(expr) == Var("a"))
+    }
+
+    it("should simplify (-(-a)) to a") {
+      val expr = Neg(Neg(Var("a")))
+      assert(simplify(expr) == Var("a"))
+    }
+
+    it("should simplify (a^-1)^-1 to a") {
+      val expr = Rec(Rec(Var("a")))
+      assert(simplify(expr) == Var("a"))
+    }
+
+    it("should handle non-simplifiable expression") {
+      val expr = Neg(Var("a"))
+      assert(simplify(expr) == expr)
+    }
+
+    it("should return result for addition with only literals") {
+      val expr = Add(Lit(2.0), Lit(3.0))
+      assert(simplify(expr) == Lit(5.0))
+    }
+
+    it("should return result for multiplication with only literals") {
+      val expr = Mult(Lit(2.0), Lit(3.0))
+      assert(simplify(expr) == Lit(6.0))
+    }
+  }
 }
