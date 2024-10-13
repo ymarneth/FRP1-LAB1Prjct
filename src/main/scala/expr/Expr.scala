@@ -4,9 +4,9 @@ sealed trait Expr {
   override def toString: String = infix(this)
 }
 
-case class Lit(v: Double) extends Expr
+case class Lit(value: Double) extends Expr
 
-case class Var(n: String) extends Expr
+case class Var(name: String) extends Expr
 
 sealed trait BinExpr(val left: Expr, val right: Expr) extends Expr
 
@@ -16,7 +16,7 @@ case class Mult(multiplend: Expr, multiplier: Expr) extends BinExpr(multiplend, 
 
 sealed trait UnyExpr(sub: Expr) extends Expr
 
-case class Min(s: Expr) extends UnyExpr(s)
+case class Neg(s: Expr) extends UnyExpr(s)
 
 case class Rec(s: Expr) extends UnyExpr(s)
 
@@ -25,7 +25,7 @@ def infix(expr: Expr): String = expr match {
   case Var(n) => n
   case Add(l, r) => s"(${infix(l)} + ${infix(r)})"
   case Mult(l, r) => s"(${infix(l)} * ${infix(r)})"
-  case Min(s) => s"(-${infix(s)})"
+  case Neg(s) => s"(-${infix(s)})"
   case Rec(s) => s"(/ ${infix(s)})"
   case null => throw new MatchError(expr)
 }
@@ -37,11 +37,11 @@ def eval(expr: Expr, bds: Map[String, Double]): Double = {
     case Var(n) => throw new IllegalArgumentException(s"Variable $n not found")
     case Add(l, r) => eval(l, bds) + eval(r, bds)
     case Mult(l, r) => eval(l, bds) * eval(r, bds)
-    case Min(s) => -eval(s, bds)
+    case Neg(s) => -eval(s, bds)
     case Rec(s) =>
       val sV = eval(s, bds)
-      if (sV == 0.0) throw new ArithmeticException("Division by zero")
-      else 1.0 / eval(s, bds)
+      if (sV == 0.0) throw new ArithmeticException("Division by zero not allowed")
+      else 1.0 / sV
 }
 
 def simplify(expr: Expr): Expr = ???
