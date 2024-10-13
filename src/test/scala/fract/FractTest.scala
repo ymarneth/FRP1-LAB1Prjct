@@ -46,7 +46,7 @@ class FractTest extends AnyFunSpec {
   describe("Test toString, equals and hashCode") {
     it("should print a fraction correctly") {
       val fract = Fract(1, 2)
-      assert(fract.toString == "1/2")
+      assert(fract.toString == "1~/~2")
     }
 
     it("should return true for equal fractions") {
