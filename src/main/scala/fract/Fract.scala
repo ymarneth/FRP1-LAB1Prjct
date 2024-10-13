@@ -6,7 +6,7 @@ import scala.language.implicitConversions
 final class Fract(val numer: Int, val denom: Int) {
   require(denom != 0, "Denominator cannot be zero")
 
-  override def toString: String = s"$numer/$denom"
+  override def toString: String = s"$numer~/~$denom"
 
   override def equals(obj: Any): Boolean = obj match {
     case f: Fract => numer == f.numer && denom == f.denom
@@ -34,7 +34,7 @@ final class Fract(val numer: Int, val denom: Int) {
   def rec: Fract = Fract(denom, numer)
 
   // returns the negated Fract
-  private def neg: Fract = Fract(-numer, denom)
+  def neg: Fract = Fract(-numer, denom)
 }
 
 // Compute the greatest common divisor (GCD)

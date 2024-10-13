@@ -124,4 +124,21 @@ class FractTest extends AnyFunSpec {
       assert(result.equals(Fract(6, 1)))
     }
   }
+
+  describe("Test combined arithmetic operations") {
+    it("1/2 + 2/3 * 1/4 should equal 2/3") {
+      val result = 1~/~2 + 2~/~3 * 1~/~4
+      assert(result.equals(Fract(2, 3)))
+    }
+
+    it("1 + (2/3) / (1/4) should equal 1/2") {
+      val result = 1 + 2~/~3 / 1~/~4
+      assert(result.equals(Fract(11, 3)))
+    }
+
+    it("5 * (-2/3 - 1/4) should equal 1/2") {
+      val result = 5 * (-2~/~3 - 1~/~4)
+      assert(result.equals(Fract(-55, 12)))
+    }
+  }
 }
