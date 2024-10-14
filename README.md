@@ -1,4 +1,5 @@
 # Functional and Reactive Programming
+[Github](https://github.com/ymarneth/FRP1-LAB1Prjct)
 
 ## Get the project up and running
 
