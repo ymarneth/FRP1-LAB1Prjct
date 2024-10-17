@@ -1,5 +1,6 @@
 package fract
 
+import java.util.Objects
 import scala.annotation.{tailrec, targetName}
 import scala.language.implicitConversions
 
@@ -13,10 +14,7 @@ final class Fract(val numer: Int, val denom: Int) {
     case _ => false
   }
 
-  override def hashCode(): Int = {
-    val state = Seq(numer, denom)
-    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
-  }
+  override def hashCode(): Int = Objects.hash(numer, denom)
 
   @targetName("add")
   def +(that: Fract): Fract = Fract(numer * that.denom + that.numer * denom, denom * that.denom)
