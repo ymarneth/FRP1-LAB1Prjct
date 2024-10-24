@@ -12,7 +12,8 @@ enum Grade :
 object ResultsAnalysis {
 
   def main(args: Array[String]): Unit = {
-    val lines = Source.fromFile("files/results.csv").getLines.toList
+
+    val lines: List[String] = Source.fromFile("files/results.csv").getLines.toList
 
     // Task 4.1: List of Results objects
 
@@ -21,33 +22,33 @@ object ResultsAnalysis {
 
     // Task 4.2: Number of solved tasks
 
-    val nSolvedPerStnd  = ???
+    val nSolvedPerStnd : Map[String, Int] = ???
     println(nSolvedPerStnd )
 
 
     // Task 4.3: Sufficient tasks solved
 
-    val sufficientSolved = ???
+    val sufficientSolved : (Set[String], Set[String]) = ???
     println(sufficientSolved)
 
     // Task 4.4: Grading
 
-    val grades = ???
+    val grades : Map[String, Grade] = ???
     println(grades)
 
     // Task 4.5: Grade statistics
 
-    val nStudentsWithGrade = ???
+    val nStudentsWithGrade : Map[Grade, Int] = ???
     println(nStudentsWithGrade)
 
     // Task 4.6: Number solved per assignment
 
-    val nSolvedPerAssnmt = ???
+    val nSolvedPerAssnmt : List[(Int, Int)] = ???
     println(nSolvedPerAssnmt)
 
     // Task 4.7.: Average points per assignment
 
-    val avrgPointsPerAssnmt = ???
+    val avrgPointsPerAssnmt : List[(Int, Double)] = ???
     println(avrgPointsPerAssnmt)
 
   }
@@ -58,8 +59,8 @@ object ResultsAnalysis {
       val avrg = points.sorted.reverse.drop(2).sum / 8
       if (avrg < 5.0) then Grade.INSUFFICIENT
       else if (avrg < 6.5) then Grade.SUFFICIENT
-      else if (avrg < 9.0) then Grade.SATISFACTORY
-      else if (avrg < 8.0) then Grade.GOOD
+      else if (avrg < 8.0) then Grade.SATISFACTORY
+      else if (avrg < 9.0) then Grade.GOOD
       else Grade.EXCELLENT
     }
   }

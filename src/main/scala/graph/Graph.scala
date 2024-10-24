@@ -8,18 +8,27 @@ trait Graph {
   val nodes: Set[N]
   val edges: Set[(N, N)]
 
+  // Task 3.1: Method successors
+
   def successors(node: N) : Set[N] = ???
 
-  def computeDists(start: N): Map[N, Int] = ??? 
+  // Task 3.2: Method computeDists
 
-  def computePaths(start: N): Map[N, List[N]] = ??? 
+  def computeDists(start: N): Map[N, Int] = ???
 
-  def computeValues[R](start: N, startValue: R, resultFn: (N, R) => R): Map[N, R] = ???
+  // Task 3.3: Method computePaths
+
+  def computePaths(start: N): Map[N, List[N]] = ???
+
+  // Task 3.4: Methods compute Values
+
+  // TODO Generic computeValues
 
   def computeDistsG(start: N): Map[N, Int] = ???
 
-
   def computePathsG(start: N): Map[N, List[N]] = ???
+
+  // optimizations -------------------------------------------------------------------------------
 
 }
 
