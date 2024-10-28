@@ -20,7 +20,7 @@ object ResultsAnalysis {
     // Task 4.1: List of Results objects
     val resultList: List[Results] =
       lines.drop(1)
-        .map(_.split(",").map(_.trim).filter(_.length == 12))
+        .map(_.split(",").map(_.trim).filter(_.length != 12))
         .map(arr => Results(arr(0).toInt, arr(1), arr.drop(2).map(_.toInt).toVector))
 
     println(resultList)
