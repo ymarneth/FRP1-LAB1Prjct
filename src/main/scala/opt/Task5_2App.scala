@@ -10,9 +10,9 @@ object Task5_2App extends App {
 
   // Pattern matching optX
   optX match
-    case Some(0) => println("Zero")
-    case Some(v) if v > 0 => println("positive")
-    case Some(v) => println("negative")
-    case None => println("No value")
+    case Some(0) => println(s"The value $optX is zero.")
+    case Some(v) if v > 0 => println(s"The value $optX is positive.")
+    case Some(v) => println(s"The value $optX is negative.")
+    case None => println("No value is provided.")
 }
 
