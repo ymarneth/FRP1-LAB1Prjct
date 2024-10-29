@@ -11,7 +11,10 @@ def evalOption(expr: Expr, bds: Map[String, Double]): Option[Double] =
       evalOption(r, bds).map(rv => lv + rv))
     case Mult(l, r) => evalOption(l, bds).flatMap(lv =>
       evalOption(r, bds).map(rv => lv * rv))
-    case Neg(s) => evalOption(s, bds).map(sv => -sv)
+    case Neg(s) => evalOption(s, bds).map{
+      case 0.0 => 0.0
+      case sv => -sv
+    }
     case Rec(s) => evalOption(s, bds).flatMap {
       case 0.0 => None
       case sv => Some(1.0 / sv)

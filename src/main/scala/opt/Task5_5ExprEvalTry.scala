@@ -15,7 +15,10 @@ def evalTry(expr: Expr, bds: Map[String, Double]): Try[Double] =
       evalTry(r, bds).map(rv => lv + rv))
     case Mult(l, r) => evalTry(l, bds).flatMap(lv =>
       evalTry(r, bds).map(rv => lv * rv))
-    case Neg(s) => evalTry(s, bds).map(sv => -sv)
+    case Neg(s) => evalTry(s, bds).map{
+      case 0.0 => 0.0
+      case sv => -sv
+    }
     case Rec(s) => evalTry(s, bds).flatMap {
       case 0.0 => Failure(new Exception("Division by zero"))
       case sv => Success(1.0 / sv)
