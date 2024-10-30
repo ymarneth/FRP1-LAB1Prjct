@@ -3,7 +3,6 @@ package opt
 import java.util.Scanner
 
 // Task 5.1: Alternative values for None
-
 object Task5_1App extends App {
 
   private val scn = new Scanner(System.in)
