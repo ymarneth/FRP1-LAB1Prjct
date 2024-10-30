@@ -24,7 +24,7 @@ object ResultsAnalysis {
       .map(_.split(",").map(_.trim).filter(_.length != 12))
       .map(arr => Results(arr(0).toInt, arr(1), arr.drop(2).map(_.toInt).toVector))
 
-    println(s"Resultlist: $resultList")
+    resultList.foreach(r => println(s"ID: ${r.id}, Name: ${r.name}, Points: ${r.points.mkString(", ")}"))
 
     println("\n===================================================================================================")
     println("     Task 4.2: Number of solved tasks     ")
@@ -34,7 +34,7 @@ object ResultsAnalysis {
       .map(r => (r.name, r.points.count(p => p >= 3))).toMap
       .map((k, v) => (k, v))
 
-    println(s"nSolvedPerStnd: $nSolvedPerStnd")
+    nSolvedPerStnd.foreach((k, v) => println(s"Name: $k, Solved: $v"))
 
     println("\n===================================================================================================")
     println("     Task 4.3: Sufficient tasks solved     ")
@@ -45,8 +45,8 @@ object ResultsAnalysis {
       (s.map(_.name).toSet, ns.map(_.name).toSet)
     }
 
-    println(s"sufficient: ${sufficientSolved._1}")
-    println(s"insufficient: ${sufficientSolved._2}")
+    println(s"sufficient: ${sufficientSolved._1.mkString(", ")}")
+    println(s"insufficient: ${sufficientSolved._2.mkString(", ")}")
 
     println("\n===================================================================================================")
     println("     Task 4.4: Grading     ")
@@ -56,7 +56,7 @@ object ResultsAnalysis {
       .map(r => (r.name, computeGrade(r.points)))
       .toMap
 
-    println(grades)
+    println(grades.foreach((k, v) => println(s"Name: $k, Grade: $v")))
 
     println("\n===================================================================================================")
     println("     Task 4.5: Grade statistics     ")
@@ -67,7 +67,7 @@ object ResultsAnalysis {
       grades.groupMap(_._2)(_._1).map((k, v) => (k, v.size))
     }
 
-    println(nStudentsWithGrade)
+    nStudentsWithGrade.foreach((k, v) => println(s"$k: $v"))
 
     println("\n===================================================================================================")
     println("     Task 4.6: Number solved per assignment     ")
@@ -78,18 +78,20 @@ object ResultsAnalysis {
       (i, valids)
     }).toList
 
-    println(nSolvedPerAssnmt)
+    nSolvedPerAssnmt.foreach((k, v) => println(s"Assignment: $k, Solved by: $v"));
 
     println("\n===================================================================================================")
     println("     Task 4.7.: Average points per assignment     ")
     println("===================================================================================================\n")
 
     val avrgPointsPerAssnmt: Map[Int, Double] = (1 to 10).map(i => {
-      val valids = resultList.map(_.points(i - 1)).filter(_ >= 0)
+      val valids = resultList.map(_.points(i - 1))
       (i, valids.sum.toDouble / valids.size)
     }).toMap
 
-    println(avrgPointsPerAssnmt)
+    avrgPointsPerAssnmt
+      .toSeq.sortBy(_._1)
+      .foreach((k, v) => println(s"Assignment: $k, Average points: $v"))
   }
 
   private def computeGrade(points: IndexedSeq[Int]): Grade = {
